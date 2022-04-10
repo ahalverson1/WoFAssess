@@ -1,5 +1,4 @@
 import random
-import time
 
 filepath = "words.txt"
 f = open(filepath, 'r')
@@ -35,11 +34,14 @@ def getWord():
     usedWords = set()
     global word
     global letters
+    #choosing random word
     word = random.choice(wordList).strip()
     print(f'Word chosen. Time to spin the wheel!')
     letters = len(word)
     print(f'There are ' + str(letters) + ' letters in this word.')
+    #ensure words aren't reused
     usedWords.add(word)
+    #print word for cheat for testing
     print(f'CHEATTTTTTTTTTTT The word is: ' + str(word))
     return word
     #use random.choice to choose a word from wordList 
@@ -48,30 +50,43 @@ def getWord():
 def spinWheel():
     global prize
     global roundBank
+    #random choice of cash values, lose turn, or bankrupt
     prize = random.choice(wheelLand)
     if prize == -1:
         print(f'Sorry, the wheel landed on Lose Turn.')
         roundPlay()
     if prize == 0:
         print(f'Oh no! The wheel landed on BANKRUPT.')
+        #drain round bank
         roundBank = 0
         roundPlay()
     if prize >= 0:
         print(f'The wheel landed on $ {prize}.')
+        #continue on to round play loop
 
 def roundPlay():
     global roundBank
     global totalBank
     global lettersGuessed
     global wrongLetterCount
+    winRound = False
 
     while winRound == False:
         print('Your bank this round is: $' + str(roundBank) +'. ')
         print(f'Letters guessed so far: ' + lettersGuessed)
-
+        print('\n')
+        #display given letters and appropriate blanks
+        for letter in word:
+            if letter in lettersGuessed:
+                print(f'{letter}', end="")
+            else:
+                print("_", end="")
+    #first con
+        print('\n')
         userChoice = input('Would you like to: (1) Guess a consonant, (2) Buy a vowel, or (3) Attempt to solve? ')
         if userChoice == str(1):
             if winRound == True:
+                print('\n')
                 break
             spinWheel()
             guess = input('Please enter a consonant: ')
@@ -80,19 +95,16 @@ def roundPlay():
                 print('Too long of an entry.')
             if guess not in consonants:
                 print('Sorry! Not a consonant.')
-            if guess in consonants:
+            if guess in lettersGuessed:
+                print('Sorry, that has already been guessed.')
+            if guess in consonants and guess not in lettersGuessed:
                 print('Lets check...')
                 lettersGuessed = lettersGuessed + guess
-                for letter in word:
-                    if letter in lettersGuessed:
-                        print(f'{letter}', end="")
-                    else:
-                        print("_", end="")
                 if guess in word:
                     roundBank += prize
-                    print('  Good guess!')
+                    print('Good guess!')
                 if guess not in word:
-                    print('  Sorry, that letter is not in the word.')
+                    print('Sorry, that letter is not in the word.')
                     wrongLetterCount += 1
 
         if userChoice == str(2):
@@ -106,38 +118,33 @@ def roundPlay():
                     print('Too long of an entry.')
                 if guess not in vowels:
                     print('Sorry! Not a vowel.')
-                if guess in vowels:
+                if guess in lettersGuessed:
+                    print('Sorry, that has already been guessed.')
+                if guess in vowels and guess not in lettersGuessed:
                     print('Lets check...')
                     lettersGuessed = lettersGuessed + guess
-                    for letter in word:
-                        if letter in lettersGuessed:
-                            print(f'{letter}', end="")
-                        else:
-                            print("_", end="")
                     if guess in word:
                         roundBank += prize
-                        print('  Good guess!') 
+                        print('Good guess!') 
                     if guess not in word:
-                        print('  Sorry, that letter is not in the word.')
+                        print('Sorry, that letter is not in the word.')
                         wrongLetterCount += 1
                    
         if userChoice == str(3):
             guess = input('Ok, try to solve the puzzle: ')
             if guess == word:
+                winRound = True
                 roundBank += 1000
                 totalBank = totalBank + roundBank
                 print("")
                 print(f'Congrats! The word was {word}.')
                 print('Your total bank is: $' + str(totalBank) +'. ')
-                return winRound == True
+                return winRound
             else:
                 print('Sorry, your guess is incorrect.')
-    while winRound == True or wrongLetterCount == 0:
-        print('Congrats! The word was ' + word)
-        print('Your total bank is: $' + str(totalBank) +'. ')
-        break
     else:
-        print('Try again.')
+        winRound = True
+
 
 def finalGuesses():
     global givenLetters
@@ -151,10 +158,18 @@ def finalGuesses():
     finalConsonants = ['b', 'c', 'd', 'f', 'g', 'h', 'j', 'k', 'm', 'n', 'p', 'q', 'v', 'w', 'x', 'y', 'z']
     finalVowels = ['a', 'i', 'o', 'u']        
     print(f'Letters provided: ' + str(givenLetters))
+    print('\n')
+    #display given letters and appropriate blanks
+    for letter in word:
+        if letter in givenLetters:
+            print(f'{letter}', end="")
+        else:
+            print("_", end="")
     #first con
+    print('\n')
     guess = input('Please enter your first consonant: ')
     if guess in givenLetters or guess in finalVowels:
-        print('Please try another consonant.')
+        print('Not a consonant or already been picked. Move on to the second consonant.')
     guessChar = len(guess)
     if guessChar > 1:
         print('Too long of an entry.')
@@ -163,7 +178,7 @@ def finalGuesses():
     #second con
     guess = input('Please enter your second consonant: ')
     if guess in guessLetters or guess in givenLetters or guess in finalVowels:
-        print('Please try another consonant.')
+        print('Not a consonant or already been picked. Move on to the third consonant.')
     guessChar = len(guess)
     if guessChar > 1:
         print('Too long of an entry.')
@@ -172,7 +187,7 @@ def finalGuesses():
     #third con
     guess = input('Please enter your third consonant: ')
     if guess in guessLetters or guess in givenLetters or guess in finalVowels:
-        print('Please try another consonant.')
+        print('Not a consonant or already been picked. Move on to the vowel.')
     guessChar = len(guess)
     if guessChar > 1:
         print('Too long of an entry.')
@@ -181,7 +196,7 @@ def finalGuesses():
     #vowel
     guess = input('Please enter your vowel: ')
     if guess in guessLetters or guess in givenLetters or guess in finalConsonants:
-        print('Please try another vowel.')
+        print('Not a vowel or already been picked. Time to guess.')
     guessChar = len(guess)
     if guessChar > 1:
         print('Too long of an entry.')
@@ -214,9 +229,8 @@ def finalPlay():
             print('Your total bank is: $' + str(totalBank) +'. ')
             return winRound == True
         else:
-            print('Sorry, your guess is incorrect. Try again.')
-    else:
-        print('Try again.')
+            print('Sorry, your guess is incorrect. Game over.')
+            break
     while winRound == True:
         print('Congrats! The word was ' + word)
         print('Your total bank is: $' + str(totalBank) +'. ')

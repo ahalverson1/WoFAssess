@@ -1,14 +1,19 @@
 Let's Play Wheel of Fortune!
 
-For each turn, you will have the opportunity to: spin the wheel and earn a cash value for every
-correctly guessed consonant, purchase a vowel for $250 flat, or attempt to solve the puzzle.
-Once all letters have been revealed, please input the word to successfully solve the puzzle.
+For each turn, you will have the opportunity to: spin the wheel and earn the value shown on 
+the wheel for the correctly guessed consonant (not for each consonant), purchase a vowel for 
+$250 flat, or attempt to solve the puzzle. This will appear in a menu.
+
+Once all letters have been revealed, or you are ready to make an attempt to solve the puzzle,
+please select 'attempt to solve the puzzle' from the menu to successfully solve the puzzle.
 If you correctly solve the puzzle during the round, you will win $1000 plus any money you won 
 throughout the round. If you do not correctly guess or reveal the word in the puzzle, 
 you will lose the round and unfortunately not keep any of your round money. 
 
-Two regular rounds will be played. The player who has the most total banked money will proceed to 
-the final round.
+When you start the next round, your round bank will reset to $0. Don't worry - your total bank
+will have your winnings from all rounds!
+
+Two regular rounds will be played. Then, player will proceed to the final round.
 
 Let's play Round One!
 
