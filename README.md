@@ -1,7 +1,7 @@
 Wheel of Fortune Assessment M06
 
 This is a terminal-based Wheel of Fortune game with 3 rounds and 1 player (hoping to expand to 3 players eventually with more experience).
-I am happy with the resulting game (WoF-single-player-code.py) knowing that this is my very first experience with Python and programming in general.
+I am happy with the resulting game (WoF-single-player-code-updated.py) knowing that this is my very first experience with Python and programming in general.
 My code is messy, but for the most part works.
 
 Known Bugs:
