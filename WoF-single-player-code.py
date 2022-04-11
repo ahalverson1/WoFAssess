@@ -69,7 +69,7 @@ def roundPlay():
     global totalBank
     global lettersGuessed
     global wrongLetterCount
-    winRound = False
+    global winRound
 
     while winRound == False:
         print('Your bank this round is: $' + str(roundBank) +'. ')
@@ -84,34 +84,47 @@ def roundPlay():
     #first con
         print('\n')
         userChoice = input('Would you like to: (1) Guess a consonant, (2) Buy a vowel, or (3) Attempt to solve? ')
+        if userChoice == str(3):
+            guess = input('Ok, try to solve the puzzle: ')
+            if guess == word:
+                roundBank += 1000
+                totalBank = totalBank + roundBank
+                print("")
+                print(f'Congrats! The word was {word}.')
+                print('Your total bank is: $' + str(totalBank) +'. ')
+                break
+            else:
+                print('Sorry, your guess is incorrect.')
         if userChoice == str(1):
             if winRound == True:
                 print('\n')
                 break
-            spinWheel()
-            guess = input('Please enter a consonant: ')
-            guessChar = len(guess)
-            if guessChar > 1:
-                print('Too long of an entry.')
-            if guess not in consonants:
-                print('Sorry! Not a consonant.')
-            if guess in lettersGuessed:
-                print('Sorry, that has already been guessed.')
-            if guess in consonants and guess not in lettersGuessed:
-                print('Lets check...')
-                lettersGuessed = lettersGuessed + guess
-                if guess in word:
-                    roundBank += prize
-                    print('Good guess!')
-                if guess not in word:
-                    print('Sorry, that letter is not in the word.')
-                    wrongLetterCount += 1
+            else:
+                spinWheel()
+                guess = input('Please enter a consonant: ')
+                guessChar = len(guess)
+                if guessChar > 1:
+                    print('Too long of an entry.')
+                if guess not in consonants:
+                    print('Sorry! Not a consonant.')
+                if guess in lettersGuessed:
+                    print('Sorry, that has already been guessed.')
+                if guess in consonants and guess not in lettersGuessed:
+                    print('Lets check...')
+                    lettersGuessed = lettersGuessed + guess
+                    if guess in word:
+                        roundBank += prize
+                        print('Good guess!')
+                    if guess not in word:
+                        print('Sorry, that letter is not in the word.')
+                        wrongLetterCount += 1
 
         if userChoice == str(2):
             if roundBank < 250:
                 print('Sorry, you do not have enough money to buy a vowel.')
             else:
                 roundBank -= 250
+                prize == 0
                 guess = input('Ok, buy a vowel: ')
                 guessChar = len(guess)
                 if guessChar > 1:
@@ -124,26 +137,12 @@ def roundPlay():
                     print('Lets check...')
                     lettersGuessed = lettersGuessed + guess
                     if guess in word:
-                        roundBank += prize
                         print('Good guess!') 
                     if guess not in word:
                         print('Sorry, that letter is not in the word.')
                         wrongLetterCount += 1
-                   
-        if userChoice == str(3):
-            guess = input('Ok, try to solve the puzzle: ')
-            if guess == word:
-                winRound = True
-                roundBank += 1000
-                totalBank = totalBank + roundBank
-                print("")
-                print(f'Congrats! The word was {word}.')
-                print('Your total bank is: $' + str(totalBank) +'. ')
-                return winRound
-            else:
-                print('Sorry, your guess is incorrect.')
-    else:
-        winRound = True
+    while winRound == True:
+        break
 
 
 def finalGuesses():
