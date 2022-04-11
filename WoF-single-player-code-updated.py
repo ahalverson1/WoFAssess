@@ -81,9 +81,10 @@ def roundPlay():
                 print(f'{letter}', end="")
             else:
                 print("_", end="")
-    #first con
+        #getting user input from menu
         print('\n')
         userChoice = input('Would you like to: (1) Guess a consonant, (2) Buy a vowel, or (3) Attempt to solve? ')
+        #guess word, menu item 3
         if userChoice == str(3):
             guess = input('Ok, try to solve the puzzle: ')
             if guess == word:
@@ -95,6 +96,7 @@ def roundPlay():
                 break
             else:
                 print('Sorry, your guess is incorrect.')
+        #guess char, menu item 1
         if userChoice == str(1):
             if winRound == True:
                 print('\n')
@@ -118,7 +120,7 @@ def roundPlay():
                     if guess not in word:
                         print('Sorry, that letter is not in the word.')
                         wrongLetterCount += 1
-
+        #guess vowel, menu item 2
         if userChoice == str(2):
             if roundBank < 250:
                 print('Sorry, you do not have enough money to buy a vowel.')
