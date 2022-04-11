@@ -23,10 +23,18 @@ f.close()
 winRound = False
 wheelLand = [-1, 0, 100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 750, 800, 850, 900]
 vowels = ['a', 'e', 'i', 'o', 'u']
-consonants = ['b', 'c', 'd', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'p', 'q', 'r', 's', 't', 'v', 'w', 'x', 'y', 'z']
+consonants = ['b', 'c', 'd', 'f', 'g', 'h',  'j', 'k', 'l', 'm', 'n', 'p', 'q', 'r', 's', 't', 'v', 'w', 'x', 'y', 'z']
 lettersGuessed = ''
-roundBank = 0
-totalBank = 0
+
+player1RoundBank = 0
+player2RoundBank = 0
+player3RoundBank = 0
+
+player1totalBank = 0
+player2totalBank = 0
+player3totalBank = 0
+
+
 wrongLetterCount = 0
 
 #getWord function
@@ -47,7 +55,8 @@ def getWord():
     #use random.choice to choose a word from wordList 
     #save random word but do not display 
 
-def spinWheel():
+#playerNum
+def spinWheel(playerNum):
     global prize
     global roundBank
     #random choice of cash values, lose turn, or bankrupt
@@ -71,7 +80,23 @@ def roundPlay():
     global wrongLetterCount
     global winRound
 
+    
+    currentPlayer = 0
+    countTurns = 0   
+    
+    
+    
     while winRound == False:
+        
+        #loop player per turn
+        #Change player
+        
+        
+        playerturn =True
+        
+        
+        #keep looping in Turn until they mess up
+        #one Turn, One Player
         print('Your bank this round is: $' + str(roundBank) +'. ')
         print(f'Letters guessed so far: ' + lettersGuessed)
         print('\n')
@@ -90,12 +115,16 @@ def roundPlay():
             if guess == word:
                 roundBank += 1000
                 totalBank = totalBank + roundBank
+                winRound == True
                 print("")
                 print(f'Congrats! The word was {word}.')
                 print('Your total bank is: $' + str(totalBank) +'. ')
                 break
             else:
                 print('Sorry, your guess is incorrect.')
+                #player turn FALSe
+                
+                
         #guess char, menu item 1
         if userChoice == str(1):
             if winRound == True:
@@ -107,10 +136,16 @@ def roundPlay():
                 guessChar = len(guess)
                 if guessChar > 1:
                     print('Too long of an entry.')
+                    #player turn FALSe
+
                 if guess not in consonants:
                     print('Sorry! Not a consonant.')
+                    #player turn FALSe
+
                 if guess in lettersGuessed:
                     print('Sorry, that has already been guessed.')
+                    #player turn FALSe
+
                 if guess in consonants and guess not in lettersGuessed:
                     print('Lets check...')
                     lettersGuessed = lettersGuessed + guess
@@ -120,10 +155,17 @@ def roundPlay():
                     if guess not in word:
                         print('Sorry, that letter is not in the word.')
                         wrongLetterCount += 1
+                        #player turn FALSe
+                
+                #print(playerTurn)
+
+
         #guess vowel, menu item 2
         if userChoice == str(2):
             if roundBank < 250:
                 print('Sorry, you do not have enough money to buy a vowel.')
+                 #player turn FALSe
+                
             else:
                 roundBank -= 250
                 prize == 0
@@ -131,10 +173,15 @@ def roundPlay():
                 guessChar = len(guess)
                 if guessChar > 1:
                     print('Too long of an entry.')
+                     #player turn FALSE
                 if guess not in vowels:
                     print('Sorry! Not a vowel.')
+                     #player turn FALSe
+                
                 if guess in lettersGuessed:
                     print('Sorry, that has already been guessed.')
+                     #player turn FALSe
+                
                 if guess in vowels and guess not in lettersGuessed:
                     print('Lets check...')
                     lettersGuessed = lettersGuessed + guess
@@ -143,6 +190,8 @@ def roundPlay():
                     if guess not in word:
                         print('Sorry, that letter is not in the word.')
                         wrongLetterCount += 1
+                         #player turn FALSe
+    ## they win the round. 
     while winRound == True:
         break
 
@@ -269,6 +318,7 @@ print(final)
 #close file
 f.close()
 
+# who is the highest 
 getWord()
 finalGuesses()
 finalPlay()
